@@ -8,7 +8,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 
 import appCss from "../styles.css?url"
-import { InstagramIcon } from "@hugeicons/core-free-icons"
+import { InstagramIcon, JusticeScaleIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 export const Route = createRootRoute({
@@ -26,6 +26,19 @@ export const Route = createRootRoute({
       },
     ],
     links: [
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      {
+        rel: "icon",
+        type: "image/x-icon",
+        href: "/favicon.ico",
+        sizes: "16x16 32x32 48x48",
+      },
+      {
+        rel: "apple-touch-icon",
+        href: "/apple-touch-icon.png",
+        sizes: "180x180",
+      },
+      { rel: "manifest", href: "/manifest.json" },
       {
         rel: "stylesheet",
         href: appCss,
@@ -64,8 +77,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               <Link
                 to="/"
                 activeProps={{ className: "" }}
-                className="after:aboslute font-heading font-bold after:bottom-0 after:left-0 after:h-1 after:w-full after:bg-black after:content-['']"
+                className="font-heading flex gap-4 items-center font-bold"
               >
+              <HugeiconsIcon size={20} strokeWidth={2} icon={JusticeScaleIcon} />
                 Student Task Force
               </Link>
               <nav
