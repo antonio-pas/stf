@@ -10,17 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TopicRouteImport } from './routes/topic'
-import { Route as PostsSlugRouteImport } from './routes/posts.$slug'
+import { Route as SbrrProgressRouteImport } from './routes/sbrr-progress'
+import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TopicRoute = TopicRouteImport.update({
-  id: '/topic',
-  path: '/topic',
+const SbrrProgressRoute = SbrrProgressRouteImport.update({
+  id: '/sbrr-progress',
+  path: '/sbrr-progress',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PostsSlugRoute = PostsSlugRouteImport.update({
@@ -31,31 +31,31 @@ const PostsSlugRoute = PostsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/topic': typeof TopicRoute
+  '/sbrr-progress': typeof SbrrProgressRoute
   '/posts/$slug': typeof PostsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/topic': typeof TopicRoute
+  '/sbrr-progress': typeof SbrrProgressRoute
   '/posts/$slug': typeof PostsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/topic': typeof TopicRoute
+  '/sbrr-progress': typeof SbrrProgressRoute
   '/posts/$slug': typeof PostsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/topic' | '/posts/$slug'
+  fullPaths: '/' | '/sbrr-progress' | '/posts/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/topic' | '/posts/$slug'
-  id: '__root__' | '/' | '/topic' | '/posts/$slug'
+  to: '/' | '/sbrr-progress' | '/posts/$slug'
+  id: '__root__' | '/' | '/sbrr-progress' | '/posts/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  TopicRoute: typeof TopicRoute
+  SbrrProgressRoute: typeof SbrrProgressRoute
   PostsSlugRoute: typeof PostsSlugRoute
 }
 
@@ -68,11 +68,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/topic': {
-      id: '/topic'
-      path: '/topic'
-      fullPath: '/topic'
-      preLoaderRoute: typeof TopicRouteImport
+    '/sbrr-progress': {
+      id: '/sbrr-progress'
+      path: '/sbrr-progress'
+      fullPath: '/sbrr-progress'
+      preLoaderRoute: typeof SbrrProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/posts/$slug': {
@@ -87,7 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  TopicRoute: TopicRoute,
+  SbrrProgressRoute: SbrrProgressRoute,
   PostsSlugRoute: PostsSlugRoute,
 }
 export const routeTree = rootRouteImport
