@@ -115,7 +115,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <div className="mx-auto mt-20 flex w-full max-w-5xl flex-col gap-4 px-6">
             {children}
           </div>
-          <footer className="flex w-full items-center justify-center border-t-2 border-black py-16">
+          <footer className="flex mt-20 w-full items-center justify-center border-t-2 border-black py-16">
             <div className="grid w-full max-w-5xl gap-4 px-6 md:grid-cols-2">
               <div>© 2026 VNHS STF. All rights reserved.</div>
               <a

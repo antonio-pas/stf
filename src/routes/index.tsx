@@ -3,6 +3,7 @@ import childrenImage from "@/assets/children.jpg"
 import humanRightsImage from "@/assets/human-rights.webp"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
 import confetti from "@hiseb/confetti"
 import { Confetti } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -31,6 +32,10 @@ function Poll({
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const submitted = poll.selectedOptionId !== null
+  const totalVotes = poll.options.reduce(
+    (total, option) => total + (option.votes ?? 0),
+    0
+  )
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -81,28 +86,52 @@ function Poll({
             className="flex flex-col gap-2"
           >
             <legend className="sr-only">Choose one option</legend>
-            {poll.options.map((option) => (
-              <label
-                key={option.id}
-                className="flex cursor-pointer items-center gap-2 rounded-md border-2 border-black p-2 hover:bg-black/10 has-disabled:cursor-not-allowed has-disabled:opacity-60"
-              >
-                <input
-                  type="radio"
-                  name={`${pollType}-option`}
-                  value={option.id}
-                  checked={selectedOptionId === option.id}
-                  onChange={() => setSelectedOptionId(option.id)}
-                  className="size-4 shrink-0 accent-black"
-                />
-                <span className="flex-1">{option.text}</span>
-                {submitted && option.votes !== null && (
-                  <span className="text-sm tabular-nums">
-                    {option.votes} {option.votes === 1 ? "vote" : "votes"}
+            {poll.options.map((option) => {
+              const percentage =
+                totalVotes > 0
+                  ? Math.round(((option.votes ?? 0) / totalVotes) * 100)
+                  : 0
+              return (
+                <label
+                  key={option.id}
+                  className={`flex flex-col gap-2 rounded-md border-2 border-black p-2 ${submitted ? "cursor-default" : "cursor-pointer hover:bg-black/10 has-disabled:cursor-not-allowed has-disabled:opacity-60"}`}
+                >
+                  <span className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name={`${pollType}-option`}
+                      value={option.id}
+                      checked={selectedOptionId === option.id}
+                      onChange={() => setSelectedOptionId(option.id)}
+                      className="size-4 shrink-0 accent-black"
+                    />
+                    <span className="min-w-0 flex-1">{option.text}</span>
                   </span>
-                )}
-              </label>
-            ))}
+                  {submitted && option.votes !== null && (
+                    <>
+                      <span className="flex items-center justify-between gap-2 text-sm tabular-nums">
+                        <span>
+                          {option.votes} {option.votes === 1 ? "vote" : "votes"}
+                        </span>
+                        <span className="font-semibold">{percentage}%</span>
+                      </span>
+                      <Progress
+                        value={percentage}
+                        aria-label={`${option.text}: ${percentage}% of votes`}
+                      />
+                    </>
+                  )}
+                </label>
+              )
+            })}
           </fieldset>
+          {submitted && (
+            <p className="text-sm">
+              <span className="font-semibold tabular-nums">
+                {totalVotes} total {totalVotes === 1 ? "vote" : "votes"}
+              </span>
+            </p>
+          )}
           {error && (
             <p role="alert" className="text-sm text-red-800">
               {error}
@@ -155,6 +184,10 @@ function App() {
         Voice your own opinion through our weekly polls:
       </h3>
 
+      <p className="mb-6">
+        Help our club decide which school issues to prioritize and what to
+        discuss next.
+      </p>
       <div className="grid gap-4 lg:grid-cols-2">
         <Poll
           pollType="issue"
